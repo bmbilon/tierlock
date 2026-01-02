@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TierLock is a five-day SaaS pricing sprint. We design pricing tiers, value metrics, and pricing pages—then a former VP Product reviews the work.">
+    <title>TierLock - SaaS Pricing Strategy Sprint</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #000;
+            --text-color: #1a1a1a;
+            --text-light: #666;
+            --bg-color: #fff;
+            --border-color: #e5e5e5;
+            --accent-color: #0066cc;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            --spacing-2xl: 4rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.5rem;
+            --font-size-2xl: 2rem;
+            --font-size-3xl: 2.5rem;
+            --line-height-tight: 1.3;
+            --line-height-normal: 1.6;
+            --line-height-relaxed: 1.8;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: var(--line-height-normal);
+            font-size: var(--font-size-base);
+        }
+
+        /* Header / Sticky Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: var(--spacing-md) 0;
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .header-cta {
+            padding: var(--spacing-xs) var(--spacing-md);
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .header-cta:hover {
+            opacity: 0.8;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: var(--spacing-2xl) 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: var(--font-size-3xl);
+            font-weight: 700;
+            line-height: var(--line-height-tight);
+            margin-bottom: var(--spacing-lg);
+            color: var(--primary-color);
+        }
+
+        .hero .subheadline {
+            font-size: var(--font-size-lg);
+            color: var(--text-light);
+            margin-bottom: var(--spacing-lg);
+            line-height: var(--line-height-relaxed);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .trust-signal {
+            font-size: var(--font-size-sm);
+            color: var(--text-light);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .cta-primary {
+            display: inline-block;
+            padding: var(--spacing-md) var(--spacing-lg);
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            text-decoration: none;
+        }
+
+        .cta-primary:hover {
+            opacity: 0.85;
+        }
+
+        /* Credibility Anchor */
+        .credibility-anchor {
+            padding: var(--spacing-2xl) 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .credibility-anchor p {
+            font-size: var(--font-size-lg);
+            color: var(--text-color);
+            line-height: var(--line-height-relaxed);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Section */
+        section {
+            padding: var(--spacing-2xl) 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        section h2 {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            color: var(--primary-color);
+        }
+
+        section h3 {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--primary-color);
+        }
+
+        section h4 {
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary-color);
+        }
+
+        /* Problem Section */
+        .problem-options {
+            margin: var(--spacing-lg) 0;
+        }
+
+        .problem-options li {
+            margin-bottom: var(--spacing-md);
+            list-style: none;
+        }
+
+        .problem-options strong {
+            font-weight: 600;
+        }
+
+        .problem-data {
+            margin: var(--spacing-lg) 0;
+            padding: var(--spacing-lg);
+            background-color: #f9f9f9;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .problem-data ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .problem-data li {
+            margin-bottom: var(--spacing-md);
+            padding-left: var(--spacing-md);
+            position: relative;
+        }
+
+        .problem-data li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* What This Is Section */
+        .is-is-not {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .is-is-not h3 {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .is-is-not ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .is-is-not li {
+            margin-bottom: var(--spacing-md);
+            padding-left: var(--spacing-md);
+            position: relative;
+        }
+
+        .is-is-not li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .is-is-not .is-not li:before {
+            content: "✕";
+            color: #999;
+        }
+
+        /* Deliverables Section */
+        .deliverable {
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-xl);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .deliverable:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .deliverable h4 {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .deliverable p {
+            color: var(--text-light);
+            line-height: var(--line-height-relaxed);
+        }
+
+        /* How It Works Section */
+        .timeline {
+            margin: var(--spacing-lg) 0;
+        }
+
+        .timeline-step {
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-xl);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .timeline-step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .timeline-step h3 {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .timeline-step p {
+            color: var(--text-light);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .key-point {
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-md);
+            background-color: #f0f4ff;
+            border-left: 4px solid var(--accent-color);
+            font-weight: 500;
+        }
+
+        /* Expert Layer Section */
+        .expert-benefits {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .expert-benefits h3 {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .expert-benefits ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .expert-benefits li {
+            margin-bottom: var(--spacing-md);
+            padding-left: var(--spacing-md);
+            position: relative;
+        }
+
+        .expert-benefits li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Pricing Section */
+        .pricing-block {
+            background-color: #f9f9f9;
+            padding: var(--spacing-xl);
+            border-radius: 8px;
+            margin: var(--spacing-lg) 0;
+        }
+
+        .pricing-amount {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            color: var(--primary-color);
+        }
+
+        .pricing-note {
+            color: var(--text-light);
+            margin-bottom: var(--spacing-lg);
+            font-size: var(--font-size-sm);
+        }
+
+        .pricing-included,
+        .pricing-excluded {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .pricing-included h4,
+        .pricing-excluded h4 {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .pricing-included ul,
+        .pricing-excluded ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .pricing-included li,
+        .pricing-excluded li {
+            margin-bottom: var(--spacing-sm);
+            padding-left: var(--spacing-md);
+            position: relative;
+            font-size: var(--font-size-sm);
+        }
+
+        .pricing-included li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .pricing-excluded li:before {
+            content: "✕";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            color: #999;
+        }
+
+        /* FAQ Section */
+        .faq-item {
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-xl);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--primary-color);
+        }
+
+        .faq-answer {
+            color: var(--text-light);
+            line-height: var(--line-height-relaxed);
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            text-align: center;
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .final-cta h2 {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .final-cta p {
+            font-size: var(--font-size-lg);
+            color: var(--text-light);
+            margin-bottom: var(--spacing-xl);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-secondary {
+            display: inline-block;
+            padding: var(--spacing-md) var(--spacing-lg);
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            border-radius: 4px;
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .cta-secondary:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #f9f9f9;
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+            color: var(--text-light);
+            font-size: var(--font-size-sm);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            :root {
+                --font-size-3xl: 1.875rem;
+                --font-size-2xl: 1.5rem;
+                --spacing-2xl: 2rem;
+                --spacing-xl: 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: var(--font-size-2xl);
+            }
+
+            .hero .subheadline {
+                font-size: var(--font-size-base);
+            }
+
+            .is-is-not,
+            .expert-benefits {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-lg);
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-primary,
+            .cta-secondary {
+                width: 100%;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+
+            .header-cta {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 var(--spacing-md);
+            }
+
+            .hero {
+                padding: var(--spacing-xl) 0;
+            }
+
+            section {
+                padding: var(--spacing-xl) 0;
+            }
+
+            .hero h1 {
+                font-size: var(--font-size-xl);
+            }
+
+            .section h2 {
+                font-size: var(--font-size-xl);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">TierLock</div>
+            <button class="header-cta" onclick="scrollToSection('cta-final')">Start TierLock</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Pricing is a verdict, not a guess.</h1>
+            <p class="subheadline">We design your pricing tiers, value metrics, and pricing page copy in five business days. Everything you need to ship. No calls.</p>
+            <p class="trust-signal">Built by Execom. Reviewed by former VP Product and Growth leaders.</p>
+            <button class="cta-primary" onclick="scrollToSection('cta-final')">Start the Sprint</button>
+        </section>
+
+        <!-- Credibility Anchor -->
+        <section class="credibility-anchor">
+            <p>Pricing is one of the few decisions that affects revenue, sales velocity, and fundraising simultaneously. Most founders still guess.</p>
+        </section>
+
+        <!-- The Problem -->
+        <section id="problem">
+            <h2>Why founders get pricing wrong</h2>
+            <p>You have three options:</p>
+            <ul class="problem-options">
+                <li><strong>Copy competitors.</strong> They're guessing too. You inherit their mistakes.</li>
+                <li><strong>Run analysis.</strong> You spend weeks, still feel uncertain, and ship anyway.</li>
+                <li><strong>Guess and iterate.</strong> You leave money on the table for months.</li>
+            </ul>
+            <p>Most founders cycle through all three and still ship uncertain.</p>
+            <div class="problem-data">
+                <p><strong>The pattern shows up everywhere:</strong></p>
+                <ul>
+                    <li>58% of founders don't feel confident in their pricing</li>
+                    <li>Pricing mistakes factor into roughly 18% of startup failures</li>
+                    <li>Most founders spend weeks on pricing and still second-guess it</li>
+                </ul>
+            </div>
+            <p>The issue isn't that you're bad at pricing. You don't have a framework.</p>
+        </section>
+
+        <!-- What This Is -->
+        <section id="what-this-is">
+            <h2>What you're buying</h2>
+            <p>This is a fixed-price, five-day sprint. We execute a complete pricing decision. You get deliverables you can ship immediately.</p>
+            
+            <div class="is-is-not">
+                <div>
+                    <h3>This is:</h3>
+                    <ul>
+                        <li>Fixed price: $2,200–$2,800</li>
+                        <li>Fixed timeline: five business days</li>
+                        <li>Fully async: no meetings</li>
+                        <li>Implementation-ready: not a deck</li>
+                        <li>Expert-reviewed: former VP Product and Growth QAs the work</li>
+                    </ul>
+                </div>
+                <div class="is-not">
+                    <h3>This is not:</h3>
+                    <ul>
+                        <li>Coaching or advisory</li>
+                        <li>Fractional exec work</li>
+                        <li>A retainer or ongoing relationship</li>
+                        <li>A template or generic framework</li>
+                        <li>A consulting engagement where you do half the work</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- What You Get -->
+        <section id="deliverables">
+            <h2>The five deliverables</h2>
+            
+            <div class="deliverable">
+                <h4>1. Competitive Pricing Landscape</h4>
+                <p>Analysis of three to five direct competitors. Their tier structure, pricing, feature logic, and positioning. You'll see where you fit.</p>
+            </div>
+
+            <div class="deliverable">
+                <h4>2. Value Metric & Willingness-to-Pay Framework</h4>
+                <p>We identify what your customers value. Then map willingness-to-pay across your ICP. This is your pricing foundation.</p>
+            </div>
+
+            <div class="deliverable">
+                <h4>3. Tier Architecture (2–3 tiers)</h4>
+                <p>A clean, feature-differentiated tier structure. Each tier justified by your value metric and competitive position. Not arbitrary.</p>
+            </div>
+
+            <div class="deliverable">
+                <h4>4. Pricing Page Copy & Wireframe</h4>
+                <p>The exact copy, layout, and positioning for your pricing page. Includes objection handling and CTA optimization. Drop it into your site.</p>
+            </div>
+
+            <div class="deliverable">
+                <h4>5. Implementation Checklist</h4>
+                <p>Step-by-step: billing system setup, trial mechanics, FAQ responses, sales objections, launch sequencing. Everything you need to go live.</p>
+            </div>
+
+            <p style="margin-top: var(--spacing-lg); font-weight: 600;">All of this is designed to be implemented immediately.</p>
+        </section>
+
+        <!-- How It Works -->
+        <section id="how-it-works">
+            <h2>The five-day process</h2>
+            
+            <div class="timeline">
+                <div class="timeline-step">
+                    <h3>Day 0: Intake</h3>
+                    <p>You submit a form. Product overview, ICP, current pricing, top three competitors, key metrics. Twenty minutes.</p>
+                </div>
+
+                <div class="timeline-step">
+                    <h3>Days 1–3: Execution</h3>
+                    <p>We run competitive analysis, build your value framework, design tier architecture, and draft pricing page copy. You do nothing.</p>
+                </div>
+
+                <div class="timeline-step">
+                    <h3>Day 4: Expert Review</h3>
+                    <p>A former VP Product and Growth reviews the output and records a two to five minute Loom video. This is your QA. No call required.</p>
+                </div>
+
+                <div class="timeline-step">
+                    <h3>Day 5: Delivery</h3>
+                    <p>You get everything. All deliverables, the expert Loom, the implementation checklist. You're ready to ship.</p>
+                </div>
+            </div>
+
+            <div class="key-point">
+                <strong>Key point:</strong> Fully async. No Zoom calls. No calendar scheduling.
+            </div>
+        </section>
+
+        <!-- Why The Expert Layer -->
+        <section id="expert-layer">
+            <h2>What the expert review does</h2>
+            <p>Execom executes. A former VP Product and Growth reviews the work and provides feedback via Loom video.</p>
+            <p>The expert reviews complete, focused work. Not a discovery call. They have time to review the work carefully. You get a second set of eyes on a critical decision.</p>
+            
+            <div class="expert-benefits">
+                <div>
+                    <h3>For you:</h3>
+                    <ul>
+                        <li>The Loom is replayable</li>
+                        <li>Share it with your team, your board, your advisors</li>
+                        <li>Expert insight without a call</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>For the expert:</h3>
+                    <ul>
+                        <li>They review on their timeline</li>
+                        <li>No scheduling friction</li>
+                        <li>Higher signal because they're reviewing actual strategy</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing -->
+        <section id="pricing">
+            <h2>Cost and what's included</h2>
+            
+            <div class="pricing-block">
+                <div class="pricing-amount">$2,200–$2,800 flat</div>
+                <p class="pricing-note">The exact price depends on scope and complexity—stage, market maturity, and competitive density. We'll confirm during intake.</p>
+                
+                <div class="pricing-included">
+                    <h4>Included:</h4>
+                    <ul>
+                        <li>All five deliverables</li>
+                        <li>Expert review + Loom video</li>
+                        <li>Implementation checklist</li>
+                        <li>One round of revisions</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-excluded">
+                    <h4>Not included:</h4>
+                    <ul>
+                        <li>Upsells</li>
+                        <li>Long-term contracts</li>
+                        <li>Equity asks</li>
+                        <li>Ongoing retainer</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq">
+            <h2>FAQ</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">Why not just copy competitor pricing?</div>
+                <div class="faq-answer">Copying locks you into their mistakes. Your pricing should be built on your value metric, your ICP, your positioning. We build a framework defensible for your business.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How is this different from a pricing consultant?</div>
+                <div class="faq-answer">Consultants charge $5k–$15k and take six to eight weeks. You pay for their time. We charge fixed price for fixed output. Five days, fully async. No ongoing relationship.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What stage is this for?</div>
+                <div class="faq-answer">Pre-Series A through Series A founders with $10k–$100k MRR. You need a confident product and uncertain pricing. If you're still validating product-market fit, this is premature. If you're Series B+, you may need more complex modeling.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What if I already have pricing?</div>
+                <div class="faq-answer">We'll audit it. Sometimes your pricing is solid and just needs better positioning. Sometimes it's leaving revenue on the table. Either way, you'll know what's working and why.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What if I disagree with the recommendation?</div>
+                <div class="faq-answer">You're not obligated to follow it blindly. The deliverable includes the reasoning behind every decision. If you disagree, you have the framework to make an informed counter-decision.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How long does implementation take?</div>
+                <div class="faq-answer">Depends on your billing system and website. Most founders implement within one to two weeks. The checklist breaks it down step-by-step.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Can I see an example?</div>
+                <div class="faq-answer">Yes. We have a sample deliverable available. It shows the exact format and depth of analysis you'll receive.</div>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="final-cta" id="cta-final">
+            <h2>Make the decision</h2>
+            <p>You have a product that works. Your pricing shouldn't be a guess. In five days, you'll have a complete, defensible pricing decision.</p>
+            <div class="cta-buttons">
+                <button class="cta-primary" onclick="handleCTA('start')">Start the Sprint</button>
+                <a href="#" class="cta-secondary" onclick="handleCTA('sample'); return false;">See a Sample Deliverable</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Execom. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function handleCTA(action) {
+            if (action === 'start') {
+                // Replace with your actual form URL or action
+                console.log('Start the Sprint clicked');
+                // window.location.href = '/intake-form';
+            } else if (action === 'sample') {
+                // Replace with your actual sample deliverable URL
+                console.log('See a Sample Deliverable clicked');
+                // window.location.href = '/sample-deliverable.pdf';
+            }
+        }
+    </script>
+</body>
+</html>
