@@ -3,14 +3,30 @@
   "version": 2,
   "builds": [
     {
-      "src": "index.html",
+      "src": "*.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "index.html"
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/intake.html",
+      "dest": "/intake.html"
+    },
+    {
+      "src": "/intake",
+      "dest": "/intake.html"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
     }
   ]
 }
